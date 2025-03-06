@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.service_button {
+  transition: background 0.3s ease-in-out;
+}
+
+/* Hover: Un color ligeramente más oscuro */
+.service_button:hover {
+  background: linear-gradient(180deg, rgba(220,230,240,1) 62%, rgba(220,230,240,1) 100%);
+}
+
+.background_gradient{
+  background: rgb(231,231,221);
+  background: radial-gradient(circle, rgba(231,231,221,1) 64%, rgba(231,231,221,1) 100%);}
+
+.nav_background{
+background: rgb(240,248,255);
+background: linear-gradient(180deg, rgba(240,248,255,1) 62%, rgba(240,248,255,1) 100%);
+}
+
+@media (max-width: 768px) {
+  .nav_background {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #F0F8FF; /* Ajusta el color de fondo según sea necesario */
+  }
+}
