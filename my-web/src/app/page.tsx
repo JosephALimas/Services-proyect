@@ -12,7 +12,7 @@ const LoginPage = () => {
             <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-lg p-8">
                 {/* Título */}
                 <h1 className="text-2xl font-bold text-center mb-6">
-                    {isLogin ? 'Iniciar Sesión' : 'Registrarse'}
+                    {isLogin ? '¡Bienvenido!' : 'Crea una cuenta'}
                 </h1>
 
                 {/* Botones para alternar entre login y registro */}
@@ -71,18 +71,18 @@ const LoginForm = () => {
             </div>
             <div className="flex justify-between items-center">
                 <button
-                    type="button"
-                    className="text-blue-500 hover:text-blue-400 transition text-sm"
-                >
-                    ¿Olvidaste tu contraseña?
-                </button>
-                <button
                     onClick={() => setIsLogin(true)}
                     className={`px-4 py-2 rounded-lg transition ${
                         isLogin ? 'bg-blue-600 text-white' : 'bg-gray-700 text-white hover:bg-gray-600'
                     }`}
                 >
                     <Link href="/main">Iniciar Sesión</Link>
+                </button>
+                <button
+                    type="button"
+                    className="text-blue-500 hover:text-blue-400 transition text-sm"
+                >
+                    ¿Olvidaste tu contraseña?
                 </button>
             </div>
         </form>

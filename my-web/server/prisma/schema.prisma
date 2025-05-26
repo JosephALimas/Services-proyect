@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model Booking {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id     String    @db.Uuid
+  service_id  String    @db.Uuid
+  date        DateTime  @db.Date
+  status      String    @db.VarChar(20)
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+  updated_at  DateTime? @default(now()) @db.Timestamp(6)
+  category_id String?   @db.Uuid
+  Category    Category? @relation(fields: [category_id], references: [id], onUpdate: NoAction, map: "fk_booking_category")
+  Service     Service   @relation(fields: [service_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_booking_service")
+  User        User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_booking_user")
+}
+
+model Category {
+  id      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name    String    @db.VarChar(100)
+  Booking Booking[]
+}
+
+model Service {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  provider_id String    @db.Uuid
+  title       String    @db.VarChar(255)
+  description String?
+  category_id String?   @db.Uuid
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+  updated_at  DateTime? @default(now()) @db.Timestamp(6)
+  Booking     Booking[]
+  User        User      @relation(fields: [provider_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_provider")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model User {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String    @db.VarChar(255)
+  email      String    @unique @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  role       String    @db.VarChar(50)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  updated_at DateTime? @default(now()) @db.Timestamp(6)
+  Booking    Booking[]
+  Service    Service[]
+}
