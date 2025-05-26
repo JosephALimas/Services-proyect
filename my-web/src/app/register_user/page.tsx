@@ -16,6 +16,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
 
   const handleRegister = async () => {
     setError("");
@@ -80,6 +81,11 @@ const RegisterForm = () => {
           <div className="space-y-4 px-6 pt-6">
             <TextInput placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} />
             <TextInput placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <TextInput
+              placeholder="URL de imagen de perfil"
+              value={profilePicture}
+              onChange={(e) => setProfilePicture(e.target.value)}
+            />
             <TextInput placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
             <TextInput placeholder="Confirma tu contraseña" value={confirm} onChange={(e) => setConfirm(e.target.value)} />
           </div>

@@ -5,10 +5,13 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -33,33 +36,38 @@ const LoginForm = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+                      {errorMsg && (
+              <p className="text-red-600 text-sm text-center">{errorMsg}</p>
+            )}
+
 
           {/* 🧩 Botón + Link */}
           <div className="flex items-center justify-between">
           <PrimaryButton
             text="Iniciar sesión"
             onClick={async () => {
-              try {
-                const res = await fetch('http://localhost:3001/api/auth/login', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ email: username, password }),
-                });
+            setErrorMsg(""); // limpia errores previos
 
-                const data = await res.json();
+            try {
+              const res = await fetch('http://localhost:3001/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: username, password }),
+              });
 
-                if (res.ok) {
-                  console.log('✅ Login exitoso:', data);
-                  // Redirige, guarda el usuario o token, etc.
-                  alert(`Bienvenido, ${data.user.name}`);
-                } else {
-                  alert(data.error);
-                }
-              } catch (err) {
-                console.error('❌ Error al iniciar sesión:', err);
-                alert('Error en el servidor');
+              const data = await res.json();
+
+              if (res.ok) {
+                console.log('✅ Login exitoso:', data);
+                router.push("/main_page");
+              } else {
+                setErrorMsg("Contraseña o correo incorrecto"); // 👈 muestra el mensaje
               }
-            }}
+            } catch (err) {
+              console.error('❌ Error al iniciar sesión:', err);
+              setErrorMsg("Error en el servidor");
+            }
+          }}
           />
             <Link href="#" className="text-sky-400 hover:underline text-sm">
               ¿Olvidaste tu contraseña?

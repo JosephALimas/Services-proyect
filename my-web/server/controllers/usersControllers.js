@@ -61,3 +61,19 @@ exports.createUser = async (req, res) => {
     res.status(500).json({ error: 'Error en el servidor' });
   }
 };
+
+exports.updateProfilePicture = async (req, res) => {
+  const { userId, profile_picture } = req.body;
+
+  try {
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data: { profile_picture },
+    });
+
+    res.json({ message: "Foto de perfil actualizada", user: updated });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "No se pudo actualizar la foto" });
+  }
+};
